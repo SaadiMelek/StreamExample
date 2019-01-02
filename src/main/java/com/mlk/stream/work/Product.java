@@ -5,18 +5,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Product {
+public class Product implements Comparable<Product> {
 	@Id
 	@GeneratedValue
     private Integer id;
     private String name;
-    private float price;
+    private Float price;
     
     public Product() {
 		super();
 	}
     
-	public Product(Integer id, String name, float price) {
+	public Product(Integer id, String name, Float price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,10 +33,10 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -64,19 +64,23 @@ public class Product {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Float.floatToIntBits(price) != Float.floatToIntBits(other.price))
-			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Product o) {
+		// TODO Auto-generated method stub
+		return this.equals(o) ? 0 : -1;
 	}
     
 }
