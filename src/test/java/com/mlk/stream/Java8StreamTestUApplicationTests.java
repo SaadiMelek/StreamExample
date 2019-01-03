@@ -4,17 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
-import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,14 +61,20 @@ public class Java8StreamTestUApplicationTests {
 		assertEquals(maxProductPrice, apple);
 		System.out.println(maxProductPrice);
 	}
-	
+
 	@Test
 	public void convertProductListIntoSet_test() {
-		// Converting product List into Set
+		// Converting product List into Set :
+		// the hash process on hashCode() method is based on product ID
+		// so we will get the SET of products ordered by ID
+		// this is what we need : because list.equal(otherList) is based on
+		// equality between objects in the index i
 		Set<Product> productsSet = tests.convertProductListIntoSet();
-		assertTrue(productsSet instanceof Set);
+		// just convert SET to LIST to compare equality
+		List<Product> productsSetToList = new ArrayList<>(productsSet);
+		assertTrue(productsSetToList.equals(productRepository.findAll()));
 	}
-	
+
 	@Test
 	public void convertProductListIntoMap_test() {
 		// Converting Product List into a Map

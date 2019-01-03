@@ -15,6 +15,9 @@ public class Tests {
 	ProductRepository productRepository;
 
 	public List<Float> filterSalaryGreaterThan25000() {
+		
+		productRepository.findDistinctByIdIsNotNull().forEach(p -> System.err.println(p));
+		
 		// filtering data of list
 		List<Float> productPriceList = productRepository.findAll()
 				.stream()
