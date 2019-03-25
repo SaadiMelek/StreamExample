@@ -21,11 +21,11 @@ public class Java8StreamTestUApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// Adding Products
-		productRepository.save(new Product(1, "HP Laptop", 25000f));
-		productRepository.save(new Product(2, "Dell Laptop", 30000f));
-		productRepository.save(new Product(3, "Lenevo Laptop", 28000f));
-		productRepository.save(new Product(4, "Sony Laptop", 28000f));
-		productRepository.save(new Product(5, "Apple Laptop", 90000f));
+		productRepository.save(new Product(1, "HP LAPTOP", 25000f));
+		productRepository.save(new Product(2, "DELL LAPTOP", 30000f));
+		productRepository.save(new Product(3, "LENOVO LAPTOP", 25000f));
+		productRepository.save(new Product(4, "SONY LAPTOP", 20000f));
+		productRepository.save(new Product(5, "APPLE LAPTOP", 30000f));
 
 		productRepository.findAll().stream().forEach(p -> System.out.println(p));
 	}

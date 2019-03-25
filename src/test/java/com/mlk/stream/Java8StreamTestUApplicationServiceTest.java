@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalLong;
 import java.util.Set;
 
 import org.junit.Before;
@@ -41,7 +42,7 @@ public class Java8StreamTestUApplicationServiceTest {
 	public void filterSalaryGreaterThan25000_test() {
 		List<Float> productPriceList = serviceTest.filterSalaryGreaterThan25000();
 		assertNotNull(productPriceList);
-		assertEquals(productPriceList.size(), 4);
+		assertEquals(productPriceList.size(), 2);
 		productPriceList.forEach(f -> System.out.println(f));
 
 	}
@@ -50,14 +51,14 @@ public class Java8StreamTestUApplicationServiceTest {
 	public void sumPrices_test() {
 		Float totalPrice3 = serviceTest.sumPrices();
 		assertNotNull(totalPrice3);
-		assertEquals(totalPrice3, new Float(201000.0f));
+		assertEquals(totalPrice3, new Float(130000.0f));
 	}
 
 	@Test
 	public void maxProductPrice_test() {
 		// max() method to get max Product price
 		Product maxProductPrice = serviceTest.maxProductPrice();
-		Product apple = productRepository.findByName("Apple Laptop");
+		Product apple = productRepository.findByName("APPLE LAPTOP");
 		assertEquals(maxProductPrice, apple);
 		System.out.println(maxProductPrice);
 	}
@@ -80,5 +81,35 @@ public class Java8StreamTestUApplicationServiceTest {
 		// Converting Product List into a Map
 		Map<Integer, String> productPriceMap = serviceTest.convertProductListIntoMap();
 		assertTrue(productPriceMap instanceof Map);
+	}
+	
+	@Test
+	public void findAnySonyOrElseNull_test() {
+		// findAny (also findFirst) OrElse : get Sony Laptop
+		Product productSony = serviceTest.findAnySonyOrElseNull();
+		assertTrue(productSony.equals(productRepository.findByName("SONY LAPTOP")));
+	}
+	
+	@Test
+	public void convertProductNamesToLowercase_test() {
+		// Convert Product Names To Lowercase
+		Set<Product> productsSet = serviceTest.convertProductNamesToLowercase();
+		productsSet.stream().forEach(p-> {
+			final String productNameUppercase = p.getName().toUpperCase();
+			final Product product = productRepository.findByName(productNameUppercase);
+			assertTrue(product.getName().equals(productNameUppercase));
+		});
+	}
+	
+	@Test
+	public void countingProductsGroupingByPrice_test() {
+		// Counting Products Grouping By Price
+		Map<Float, Long> countingGroupingByPrice = serviceTest.countingProductsGroupingByPrice();
+		OptionalLong count = countingGroupingByPrice.entrySet()
+			.stream()
+			.filter(e -> e.getKey().equals(25000.0f))
+			.mapToLong(e -> e.getValue())
+			.findFirst();
+		assertTrue(count.getAsLong() == 2);
 	}
 }

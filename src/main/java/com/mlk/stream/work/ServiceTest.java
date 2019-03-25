@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.mlk.stream.work.Product;;
 
 @Component
 public class ServiceTest {
@@ -66,6 +67,38 @@ public class ServiceTest {
 				.collect(Collectors.toMap(p -> p.getId(), p -> p.getName()));
 		System.out.println(productPriceMap);
 		return productPriceMap;
+	}
+	
+	public Product findAnySonyOrElseNull() {
+		// findAny OrElse : get Sony Laptop
+		Product productSony = productRepository.findAll()
+				.stream()
+				.filter(x -> x.getName().contains("SONY"))
+				.findAny()
+				.orElse(null);
+		System.out.println(productSony.getPrice());
+		return productSony;
+	}
+	
+	public Set<Product> convertProductNamesToLowercase() {
+		// Convert String Name To Lowercase
+		Set<Product> productsSet = productRepository.findAll()
+				.stream()
+				.map(p-> {
+					p.setName(p.getName().toLowerCase());
+					return p;
+				})
+				.collect(Collectors.toSet());
+				
+		System.out.println(productsSet);
+		return productsSet;
+	}
+	
+	public Map<Float, Long> countingProductsGroupingByPrice() {
+		Map<Float, Long> countingGroupingBy = productRepository.findAll()
+				.stream()
+				.collect(Collectors.groupingBy(Product::getPrice, Collectors.counting()));
+		return countingGroupingBy;
 	}
 
 }
