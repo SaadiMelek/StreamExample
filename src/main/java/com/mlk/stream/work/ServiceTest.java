@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Tests {
+public class ServiceTest {
 
 	@Autowired
 	ProductRepository productRepository;
@@ -21,10 +21,11 @@ public class Tests {
 		// filtering data of list
 		List<Float> productPriceList = productRepository.findAll()
 				.stream()
-				.filter((product) -> product.getPrice() > 25000).map((product) -> product.getPrice())
+				.filter((product) -> product.getPrice() > 25000)
+				.map(product -> product.getPrice())
 				.collect(Collectors.toList());
 		// displaying data
-		productPriceList.forEach((price) -> System.out.println(price));
+		productPriceList.forEach(price -> System.out.println(price));
 		return productPriceList;
 	}
 
@@ -41,7 +42,8 @@ public class Tests {
 		// max() method to get max Product price
 		Product productA = productRepository.findAll()
 				.stream()
-				.max((product1, product2) -> product1.getPrice() > product2.getPrice() ? 1 : -1).get();
+				.max((product1, product2) -> product1.getPrice() > product2.getPrice() ? 1 : -1)
+				.get();
 		System.out.println(productA.getPrice());
 		return productA;
 	}

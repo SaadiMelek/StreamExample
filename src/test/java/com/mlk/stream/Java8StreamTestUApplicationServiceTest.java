@@ -19,18 +19,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mlk.stream.work.Product;
 import com.mlk.stream.work.ProductRepository;
-import com.mlk.stream.work.Tests;
+import com.mlk.stream.work.ServiceTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
-public class Java8StreamTestUApplicationTests {
+public class Java8StreamTestUApplicationServiceTest {
 
 	@Autowired
 	ProductRepository productRepository;
 
 	@Autowired
-	Tests tests;
+	ServiceTest serviceTest;
 
 	@Before
 	public void setUp() {
@@ -39,7 +39,7 @@ public class Java8StreamTestUApplicationTests {
 
 	@Test
 	public void filterSalaryGreaterThan25000_test() {
-		List<Float> productPriceList = tests.filterSalaryGreaterThan25000();
+		List<Float> productPriceList = serviceTest.filterSalaryGreaterThan25000();
 		assertNotNull(productPriceList);
 		assertEquals(productPriceList.size(), 4);
 		productPriceList.forEach(f -> System.out.println(f));
@@ -48,7 +48,7 @@ public class Java8StreamTestUApplicationTests {
 
 	@Test
 	public void sumPrices_test() {
-		Float totalPrice3 = tests.sumPrices();
+		Float totalPrice3 = serviceTest.sumPrices();
 		assertNotNull(totalPrice3);
 		assertEquals(totalPrice3, new Float(201000.0f));
 	}
@@ -56,7 +56,7 @@ public class Java8StreamTestUApplicationTests {
 	@Test
 	public void maxProductPrice_test() {
 		// max() method to get max Product price
-		Product maxProductPrice = tests.maxProductPrice();
+		Product maxProductPrice = serviceTest.maxProductPrice();
 		Product apple = productRepository.findByName("Apple Laptop");
 		assertEquals(maxProductPrice, apple);
 		System.out.println(maxProductPrice);
@@ -69,7 +69,7 @@ public class Java8StreamTestUApplicationTests {
 		// so we will get the SET of products ordered by ID
 		// this is what we need : because list.equal(otherList) is based on
 		// equality between objects in the index i
-		Set<Product> productsSet = tests.convertProductListIntoSet();
+		Set<Product> productsSet = serviceTest.convertProductListIntoSet();
 		// just convert SET to LIST to compare equality
 		List<Product> productsSetToList = new ArrayList<>(productsSet);
 		assertTrue(productsSetToList.equals(productRepository.findAll()));
@@ -78,7 +78,7 @@ public class Java8StreamTestUApplicationTests {
 	@Test
 	public void convertProductListIntoMap_test() {
 		// Converting Product List into a Map
-		Map<Integer, String> productPriceMap = tests.convertProductListIntoMap();
+		Map<Integer, String> productPriceMap = serviceTest.convertProductListIntoMap();
 		assertTrue(productPriceMap instanceof Map);
 	}
 }
